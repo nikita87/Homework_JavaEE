@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <meta charset="UTF-8">
+    <title>Find movies</title>
+    <style>
+        input[type="text"]{
+            position: absolute;
+            width: 500px;
+        }
+
+        button[type="search"]{
+            background-color: firebrick;
+            border-bottom-color: black;
+            color: white;
+            padding: 5px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 16px;
+            position: absolute; top: 55px; left: 520px;
+        }
+
+        button[type="clear"]{
+            background-color: firebrick;
+            border-bottom-color: black;
+            color: white;
+            padding: 5px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 16px;
+            position: absolute; top: 55px; left: 660px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h2>Find Movies</h2>
+
+<input id="inp" type="text" placeholder="search...">
+<button id="btnSearch" type="search">Search</button>
+<button id="btnClear" type="clear">Clear</button>
+<p id="resultInfo"></p>
+
+<script>
+        $('#btnSearch').click(function() {
+            var txt = document.getElementById('inp').value;
+            $.ajax({
+                url: 'https://api.themoviedb.org/3/search/multi?language=ru-RU&api_key=4e4ccd7eb7118c1cccf9ec0f43314aac',
+                data:{query: txt},
+                success:function(data){
+                    for (var i = 0;i < data.results.length;i++){
+                        for (var key in data.results[i]){
+                            var line = document.createElement("HR");
+                            document.getElementById('resultInfo').append(key + ":" + data.results[i][key]);
+                            document.getElementById('resultInfo').append(line);
+                        }
+                    }
+                    console.log(data);
+                }
+            })
+        });
+
+        $('#btnClear').click(function() {
+            $('#resultInfo').text("");
+        });
+
+</script>
+</body>
+</html>
